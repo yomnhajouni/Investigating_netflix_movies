@@ -1,0 +1,36 @@
+# Importing pandas and matplotlib
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read in the Netflix CSV as a DataFrame
+netflix_df = pd.read_csv("netflix_data.csv")
+#Displaying the dataframe
+print(netflix_df)
+#filter the data for movies 
+movies_df=netflix_df[netflix_df['type']=="Movie"]
+print(movies_df)
+#Filter the data for movies released in the 1990s
+movies_1990=movies_df[(movies_df["release_year"]>=1900)&(movies_df["release_year"]<=1999)]
+print(movies_1990)
+#Visualizing the distribution
+plt.hist(movies_1990['duration'])
+plt.title('Movies duration distribution')
+plt.xlabel('Movies Duration')
+plt.ylabel('Number of movies')
+plt.show()
+#Determine the most frequent movie duration
+duration=100
+#Subsetting the action movies
+action_movies=movies_1990[movies_1990['genre']=='Action']
+
+print(action_movies)
+#counting the short action movies 
+short_movie_count=0
+for label, row in action_movies.iterrows():
+    if row['duration']<90:
+        short_movie_count=short_movie_count+1
+    else:
+        short_movie_count=short_movie_count
+print(short_movie_count)  
+short_movie_count=(action_movies["duration"]<90).sum()
+print(short_movie_count)
